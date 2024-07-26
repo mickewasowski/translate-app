@@ -47,6 +47,12 @@ const UserInputProvider = ({ children }) => {
         }
     }
 
+    const swapLanguages = () => {
+        const temp = currentUserLanguage;
+        setCurrentUserLanguage(resultLanguage);
+        setResultLanguage(temp);
+    }
+
     return(
         <UserInputContext.Provider value={{
                 userTextInput,
@@ -56,7 +62,8 @@ const UserInputProvider = ({ children }) => {
                 currentUserLanguage,
                 setCurrentUserLanguage,
                 resultLanguage,
-                setResultLanguage
+                setResultLanguage,
+                swapLanguages
             }}>
             { children }
         </UserInputContext.Provider>

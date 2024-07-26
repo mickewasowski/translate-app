@@ -15,9 +15,16 @@ const iconButtonsUrls = [
 
 interface IProps {
     renderSubmitButton: boolean;
+    inputRef: React.RefAttributes<HTMLTextAreaElement>;
 }
 
-function BottomButtonsWrapper({ renderSubmitButton }: IProps) {
+function BottomButtonsWrapper({ renderSubmitButton, inputRef }: IProps) {
+
+    const copyToClipboard = () => {
+        const value = inputRef?.current?.value;
+        navigator.clipboard.writeText(value);
+        alert('Copied text to clipboard!');
+    }
 
     return(
         <div className="bottom-buttons-container">
@@ -25,7 +32,7 @@ function BottomButtonsWrapper({ renderSubmitButton }: IProps) {
                 {
                     iconButtonsUrls.map((btn) => {
                         return(
-                            <IconButton key={btn.id} iconUrl={btn.url} />
+                            <IconButton key={btn.id} iconUrl={btn.url} textAreaRef={btn.id === 'copy' && inputRef} onClickHandler={btn.id === 'copy' && copyToClipboard}/>
                         )
                     })
                 }

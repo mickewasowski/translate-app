@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useRef } from "react";
 import LanguageButton from "../buttons/LanguageButton";
 import TextArea from "../inputs/TextArea";
 import BottomButtonsWrapper from "../buttons/BottomButtonsWrapper";
@@ -6,7 +6,8 @@ import IconButton from "../buttons/IconButton";
 import { buttonsToLoad, UserInputContext } from "../../contexts/UserInput";
 
 function ResultWrapper() {
-    const { translated, resultLanguage, setResultLanguage } = useContext(UserInputContext);
+    const { translated, resultLanguage, setResultLanguage, swapLanguages } = useContext(UserInputContext);
+    const textAreaRef = useRef(null);
 
     return(
         <div className='input-wrapper results'>
@@ -27,10 +28,10 @@ function ResultWrapper() {
                         })
                     }
                 </div>
-                <IconButton iconUrl={'/src/assets/Horizontal_top_left_main.svg'}/>
+                <IconButton iconUrl={'/src/assets/Horizontal_top_left_main.svg'} onClickHandler={swapLanguages}/>
             </div>
-            <TextArea currentValue={translated} />
-            <BottomButtonsWrapper renderSubmitButton={false} />
+            <TextArea currentValue={translated} inputRef={textAreaRef}/>
+            <BottomButtonsWrapper renderSubmitButton={false} inputRef={textAreaRef}/>
         </div>
     )
 }

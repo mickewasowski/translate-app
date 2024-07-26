@@ -4,15 +4,17 @@ import classNames from "classnames";
 
 interface IProps {
     iconUrl: string;
+    onClickHandler?: () => void;
+    textAreaRef?: React.RefAttributes<HTMLTextAreaElement>;
 }
 
-function IconButton({ iconUrl }: IProps) {
+function IconButton({ iconUrl, onClickHandler }: IProps) {
     const className = classNames({
         'icon-button': true,
     });
 
     return(
-        <button className={className}>
+        <button className={className} onClick={onClickHandler}>
             <ReactSVG src={iconUrl} />
         </button>
     )
