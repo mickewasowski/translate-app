@@ -1,7 +1,12 @@
+import MainWrapper from "./components/wrappers/MainWrapper"
+import './App.scss';
+
 function App() {
   return (
-    <h1>Hi!</h1>
+    <main>
+      <MainWrapper />
+    </main>
   )
 }
 
-export default App
+export default App;
