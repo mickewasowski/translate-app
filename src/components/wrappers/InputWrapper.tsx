@@ -1,29 +1,12 @@
-import { useState } from 'react';
+import { useContext } from 'react';
 import LanguageButton from '../buttons/LanguageButton';
 import TextArea from '../inputs/TextArea';
 import BottomButtonsWrapper from '../buttons/BottomButtonsWrapper';
 import './InputWrapper.styles.scss';
+import { buttonsToLoad, UserInputContext } from '../../contexts/UserInput';
 
-export const buttonsToLoad = [
-    {
-        id: 'detectLanguageBtn',
-        innerText: 'Detect language'
-    },
-    {
-        id: 'englishLanguageBtn',
-        innerText: 'English'
-    },
-    {
-        id: 'frenchLanguageBtn',
-        innerText: 'French'
-    },
-    {
-        id: 'spanishLanguageBtn',
-        innerText: 'Spanish'
-    }
-];
 function InputWrapper() {
-    const [currentLanguage, setCurrentLanguage] = useState(buttonsToLoad[1].id);
+    const { userTextInput, setUserTextInput, currentUserLanguage, setCurrentUserLanguage } = useContext(UserInputContext);
 
     return(
         <div className='input-wrapper'>
@@ -31,12 +14,18 @@ function InputWrapper() {
                 {
                     buttonsToLoad.map((btn) => {
                         return (
-                            <LanguageButton key={btn.id} innerText={btn.innerText} currentlySelected={currentLanguage === btn.id} />
+                            <LanguageButton
+                                key={btn.id}
+                                innerText={btn.innerText}
+                                currentlySelected={currentUserLanguage === btn.id}
+                                setLanguage={setCurrentUserLanguage}
+                                id={btn.id}
+                            />
                         )
                     })
                 }
             </div>
-            <TextArea />
+            <TextArea currentValue={userTextInput} setCurrentValue={setUserTextInput}/>
             <BottomButtonsWrapper renderSubmitButton={true} />
         </div>
     )

@@ -1,23 +1,20 @@
-import { useState } from "react";
 import './TextArea.styles.scss';
 
 interface IProps {
-    isResult: boolean;
+    currentValue: string;
+    setCurrentValue?: (input: string) => void;
 }
 
-function TextArea({ isResult }: IProps) {
-    const initialText = isResult ? '' : 'Hello, how are you?';
-    const [currentText, setCurrentText] = useState(initialText);
-
+function TextArea({ currentValue, setCurrentValue }: IProps) {
     const handleTyping = ({ target: { value } }) => {
         if (value.length > 500) return;
-        setCurrentText(value);
+        setCurrentValue && setCurrentValue(value);
     }
 
     return(
         <div className="textarea-container">
-            <textarea className="user-type-input" value={currentText} onChange={handleTyping} />
-            <p id="letter-counter">{currentText.length}/500</p>
+            <textarea className="user-type-input" value={currentValue} onChange={handleTyping} />
+            <p id="letter-counter">{currentValue?.length}/500</p>
         </div>
     )
 }
