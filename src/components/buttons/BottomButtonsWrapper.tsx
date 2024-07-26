@@ -26,13 +26,37 @@ function BottomButtonsWrapper({ renderSubmitButton, inputRef }: IProps) {
         alert('Copied text to clipboard!');
     }
 
+    const textToSpeech = () => {
+        const msg = new SpeechSynthesisUtterance();
+        const value = inputRef?.current?.value;
+        msg.text = value;
+        window.speechSynthesis.speak(msg);
+    }
+
+    const clickHandler = (buttonId: string) => {
+        switch(buttonId) {
+            case 'copy': {
+                return copyToClipboard;
+            }
+            case 'speaker': {
+                return textToSpeech;
+            }
+            default:
+                return;
+        }
+    }
+
     return(
         <div className="bottom-buttons-container">
             <div className="icon-buttons-container">
                 {
                     iconButtonsUrls.map((btn) => {
                         return(
-                            <IconButton key={btn.id} iconUrl={btn.url} textAreaRef={btn.id === 'copy' && inputRef} onClickHandler={btn.id === 'copy' && copyToClipboard}/>
+                            <IconButton
+                                key={btn.id}
+                                iconUrl={btn.url}
+                                textAreaRef={inputRef}
+                                onClickHandler={clickHandler(btn.id)}/>
                         )
                     })
                 }
