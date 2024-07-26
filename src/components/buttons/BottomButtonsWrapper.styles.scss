@@ -1,0 +1,13 @@
+@import '/src/App.scss';
+
+.bottom-buttons-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: .8rem;
+    margin-bottom: 1.5rem;
+
+    .icon-buttons-container {
+        display: flex;
+        gap: .7rem;
+    }
+}

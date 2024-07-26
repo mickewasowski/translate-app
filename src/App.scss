@@ -1,0 +1,21 @@
+$black: #040711;
+$dark-gray: #394150;
+$background-color: #121826cc;
+$slightly-lighter-dark-gray: #4D5562;
+$light-grey: #6D727F;
+$blueish-white: #CDD5E0;
+$white: #F9FAFB;
+$dark-blue: #3662E3;
+$light-blue: #7CA9F3;
+
+
+
+main {
+    background-image: url('img/hero_img.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+}

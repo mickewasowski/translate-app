@@ -1,0 +1,23 @@
+@import '/src/App.scss';
+
+.input-wrapper {
+    background-color: rgba($background-color, .8);
+    padding: 0 1.5rem;
+    padding-top: 1.5rem;
+    border-radius: 30px;
+    border: 1px solid $slightly-lighter-dark-gray;
+    min-width: 600px;
+
+    .buttons-container {
+        border-bottom: 1px solid $slightly-lighter-dark-gray;
+        padding-bottom: 1rem;
+        display: flex;
+        gap: 1rem;
+    }
+}
+
+.results {
+    .buttons-container {
+        justify-content: space-between;
+    }
+}

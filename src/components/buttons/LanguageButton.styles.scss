@@ -1,0 +1,19 @@
+@import '/src/App.scss';
+
+.regular {
+    background-color: transparent;
+    border: none;
+    padding: .5rem .7rem;
+    color: $light-grey;
+    font-weight: 600;
+
+    &.active-button {
+        background-color: rgba($light-grey, .6);
+        color: $white;
+        border-radius: 10px;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}

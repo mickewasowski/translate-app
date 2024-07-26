@@ -1,0 +1,23 @@
+@import '/src/App.scss';
+
+#translate-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $dark-blue;
+    color: $white;
+    font-weight: bold;
+    padding: .8rem;
+    width: 10rem;
+    height: 3.3rem;
+    border-radius: 13px;
+    border: 1px solid $light-blue;
+
+    div {
+        display: flex;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}

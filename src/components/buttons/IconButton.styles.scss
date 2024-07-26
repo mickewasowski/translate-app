@@ -1,0 +1,20 @@
+@import '/src/App.scss';
+
+.icon-button {
+    background-color: transparent;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 3px solid  $slightly-lighter-dark-gray;
+
+    div {
+        display: flex;
+    }
+
+    &:hover {
+        cursor: pointer;
+    }
+}
