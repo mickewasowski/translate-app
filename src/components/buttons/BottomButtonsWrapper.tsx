@@ -1,15 +1,18 @@
 import IconButton from "./IconButton";
 import TranslateButton from "./TranslateButton";
 import './BottomButtonsWrapper.styles.scss';
+import VoiceToText from "../misc/VoiceToText";
 
 const iconButtonsUrls = [
     {
         id: 'speaker',
-        url: '/src/assets/sound_max_fill.svg'
+        url: '/src/assets/sound_max_fill.svg',
+        tooltip: 'Listen',
     },
     {
         id: 'copy',
-        url: '/src/assets/Copy.svg'
+        url: '/src/assets/Copy.svg',
+        tooltip: 'Copy',
     }
 ];
 
@@ -56,10 +59,13 @@ function BottomButtonsWrapper({ renderSubmitButton, inputRef }: IProps) {
                                 key={btn.id}
                                 iconUrl={btn.url}
                                 textAreaRef={inputRef}
-                                onClickHandler={clickHandler(btn.id)}/>
+                                onClickHandler={clickHandler(btn.id)}
+                                tooltip={btn.tooltip}
+                            />
                         )
                     })
                 }
+                { renderSubmitButton && <VoiceToText /> }
             </div>
             {
                 renderSubmitButton && <TranslateButton />

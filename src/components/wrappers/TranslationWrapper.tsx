@@ -41,11 +41,11 @@ function TranslationWrapper({ type }: IProps) {
                 </div>
                 {
                     isResult &&
-                    <IconButton iconUrl={'/src/assets/Horizontal_top_left_main.svg'} onClickHandler={onSwapLanguages}/>
+                    <IconButton iconUrl={'/src/assets/Horizontal_top_left_main.svg'} onClickHandler={onSwapLanguages} tooltip='Swap languages'/>
                 }
             </div>
             <TextArea currentValue={textAreaValue} setCurrentValue={handleSetUserInput} inputRef={textAreaRef}/>
-            <BottomButtonsWrapper renderSubmitButton={type === 'left'} inputRef={textAreaRef}/>
+            <BottomButtonsWrapper renderSubmitButton={!isResult} inputRef={textAreaRef}/>
         </div>
     )
 }
