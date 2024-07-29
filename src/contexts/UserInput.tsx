@@ -51,19 +51,39 @@ const UserInputProvider = ({ children }) => {
         const temp = currentUserLanguage;
         setCurrentUserLanguage(resultLanguage);
         setResultLanguage(temp);
+        const tempInput = userTextInput;
+        setUserTextInput(translated);
+        setTranslated(tempInput);
+    }
+
+    const getStateByContainerType = (type: 'right' | 'left') => {
+        switch(type) {
+            case 'right': {
+                return {
+                    translated,
+                    resultLanguage,
+                    setResultLanguage,
+                    swapLanguages
+                }
+            }
+            case 'left': {
+                return {
+                    userTextInput,
+                    setUserTextInput,
+                    currentUserLanguage,
+                    setCurrentUserLanguage
+                }
+            }
+            default: {
+                return null;
+            }
+        }
     }
 
     return(
         <UserInputContext.Provider value={{
-                userTextInput,
-                setUserTextInput,
-                translated,
-                translateUserInput,
-                currentUserLanguage,
-                setCurrentUserLanguage,
-                resultLanguage,
-                setResultLanguage,
-                swapLanguages
+                getStateByContainerType,
+                translateUserInput
             }}>
             { children }
         </UserInputContext.Provider>
