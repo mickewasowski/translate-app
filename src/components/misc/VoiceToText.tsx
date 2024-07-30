@@ -15,6 +15,11 @@ function VoiceToText() {
     mic.lang = language?.langCode;
 
     const startRecording = () => {
+        if (!language?.langCode) {
+            alert('Please select a language to detect your speech!');
+            return;
+        }
+
         setIsRecording(true);
         mic.start();
 

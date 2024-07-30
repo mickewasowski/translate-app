@@ -1,6 +1,7 @@
 import { useState, createContext } from "react";
 import { LanguageTags } from "../utils/languageTags";
-import { translateText } from "../utils/apiRequest";
+import { detectLanguage, translateText } from "../utils/apiRequest";
+import { languageCodes } from "../utils/NLP-languages";
 
 export const UserInputContext = createContext(null);
 
@@ -26,6 +27,29 @@ export const buttonsToLoad = [
     }
 ];
 
+export const allLanguages = [
+    {
+        id: 'detectLanguageBtn',
+        innerText: 'Detect language',
+    },
+    {
+        id: 'englishLanguageBtn',
+        innerText: 'English',
+        langCode: LanguageTags.en
+    },
+    {
+        id: 'frenchLanguageBtn',
+        innerText: 'French',
+        langCode: LanguageTags.fr
+    },
+    {
+        id: 'spanishLanguageBtn',
+        innerText: 'Spanish',
+        langCode: LanguageTags.es
+    },
+    //TODO: add the rest of the languages
+];
+
 const UserInputProvider = ({ children }) => {
     const [userTextInput, setUserTextInput] = useState('Hello, how are you?');
     const [translated, setTranslated] = useState('');
@@ -34,12 +58,29 @@ const UserInputProvider = ({ children }) => {
 
     const translateUserInput = async () => {
         try {
-            const sourceLang = buttonsToLoad.find((x) => x.id === currentUserLanguage)?.langCode;
-            const resultLang = buttonsToLoad.find((x) => x.id === resultLanguage)?.langCode;
-            if (sourceLang && resultLang) {
-                const result = await translateText(userTextInput, sourceLang, resultLang);
-                if (result.responseData) {
-                    setTranslated(result.responseData.translatedText);
+            if (currentUserLanguage === buttonsToLoad[0].id) {
+                const resultLang = buttonsToLoad.find((x) => x.id === resultLanguage)?.langCode;
+                if (resultLang) {
+                    const translated = await detectLanguage(userTextInput);
+                    const langCode = languageCodes[translated['DetectedLanguage_ThreeLetterCode']];
+                    const currentLanguage = allLanguages.find(x => x.langCode === langCode);
+                    if (currentLanguage) {
+                        setCurrentUserLanguage(currentLanguage.id);
+                        //const sourceLang = buttonsToLoad.find((x) => x.id === currentUserLanguage)?.langCode;
+                        const result = await translateText(userTextInput, langCode, resultLang);
+                        if (result.responseData) {
+                            setTranslated(result.responseData.translatedText);
+                        }
+                    }
+                }
+            } else {
+                const sourceLang = buttonsToLoad.find((x) => x.id === currentUserLanguage)?.langCode;
+                const resultLang = buttonsToLoad.find((x) => x.id === resultLanguage)?.langCode;
+                if (sourceLang && resultLang) {
+                    const result = await translateText(userTextInput, sourceLang, resultLang);
+                    if (result.responseData) {
+                        setTranslated(result.responseData.translatedText);
+                    }
                 }
             }
         } catch (error) {
