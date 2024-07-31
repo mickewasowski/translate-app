@@ -1,9 +1,40 @@
-import { useState, createContext } from "react";
+import { useState, createContext, ReactElement } from "react";
 import { LanguageTags } from "../utils/languageTags";
 import { detectLanguage, translateText } from "../utils/apiRequest";
 import { languageCodes } from "../utils/NLP-languages";
 
-export const UserInputContext = createContext(null);
+interface IGetStateByContainerTypeReturnValue {
+    translated?: string;
+    resultLanguage?: string;
+    setResultLanguage?: React.Dispatch<React.SetStateAction<string>>;
+    swapLanguages?: () => void;
+    userTextInput?: string;
+    setUserTextInput?: React.Dispatch<React.SetStateAction<string>>;
+    currentUserLanguage?: string;
+    setCurrentUserLanguage?: React.Dispatch<React.SetStateAction<string>>;
+}
+interface IUserInputContext {
+    getStateByContainerType: (type: 'right' | 'left') => IGetStateByContainerTypeReturnValue;
+    translateUserInput: () => Promise<void>;
+}
+
+const defaultState: IGetStateByContainerTypeReturnValue = {
+    translated: '',
+    resultLanguage: 'frenchLanguageBtn',
+    setResultLanguage: () => {},
+    swapLanguages: () => {},
+    userTextInput: 'Hello, how are you?',
+    setUserTextInput: () => {},
+    currentUserLanguage: 'englishLanguageBtn',
+    setCurrentUserLanguage: () => {},
+};
+
+const defaultContext: IUserInputContext = {
+    getStateByContainerType: (type: 'right' | 'left') => defaultState,
+    translateUserInput: async () => {}
+};
+
+export const UserInputContext = createContext<IUserInputContext>(defaultContext);
 
 export const buttonsToLoad = [
     {
@@ -104,7 +135,17 @@ export const allLanguages = [
     },
 ];
 
-const UserInputProvider = ({ children }) => {
+interface IDetectLanguageResponse {
+    DetectedLanguage_FullName: string;
+    DetectedLanguage_ThreeLetterCode: string;
+    Successful: boolean;
+}
+
+interface IProps {
+    children: ReactElement;
+}
+
+const UserInputProvider = ({ children }: IProps) => {
     const [userTextInput, setUserTextInput] = useState('Hello, how are you?');
     const [translated, setTranslated] = useState('');
     const [currentUserLanguage, setCurrentUserLanguage] = useState(buttonsToLoad[1].id);
@@ -112,15 +153,15 @@ const UserInputProvider = ({ children }) => {
 
     const translateUserInput = async () => {
         try {
+            const resultLang = allLanguages.find((x) => x.id === resultLanguage)?.langCode;
             if (currentUserLanguage === allLanguages[0].id) {
-                const resultLang = allLanguages.find((x) => x.id === resultLanguage)?.langCode;
                 if (resultLang) {
-                    const translated = await detectLanguage(userTextInput);
-                    const langCode = languageCodes[translated['DetectedLanguage_ThreeLetterCode']];
+                    const translated: IDetectLanguageResponse = await detectLanguage(userTextInput);
+                    const responseLangCode = translated['DetectedLanguage_ThreeLetterCode'];
+                    const langCode: string = languageCodes[responseLangCode as keyof typeof languageCodes];
                     const currentLanguage = allLanguages.find(x => x.langCode === langCode);
                     if (currentLanguage) {
                         setCurrentUserLanguage(currentLanguage.id);
-                        //const sourceLang = buttonsToLoad.find((x) => x.id === currentUserLanguage)?.langCode;
                         const result = await translateText(userTextInput, langCode, resultLang);
                         if (result.responseData) {
                             setTranslated(result.responseData.translatedText);
@@ -129,7 +170,6 @@ const UserInputProvider = ({ children }) => {
                 }
             } else {
                 const sourceLang = allLanguages.find((x) => x.id === currentUserLanguage)?.langCode;
-                const resultLang = allLanguages.find((x) => x.id === resultLanguage)?.langCode;
                 if (sourceLang && resultLang) {
                     const result = await translateText(userTextInput, sourceLang, resultLang);
                     if (result.responseData) {
@@ -158,7 +198,11 @@ const UserInputProvider = ({ children }) => {
                     translated,
                     resultLanguage,
                     setResultLanguage,
-                    swapLanguages
+                    swapLanguages,
+                    userTextInput: undefined,
+                    setUserTextInput: undefined,
+                    currentUserLanguage: undefined,
+                    setCurrentUserLanguage: undefined,
                 }
             }
             case 'left': {
@@ -166,11 +210,12 @@ const UserInputProvider = ({ children }) => {
                     userTextInput,
                     setUserTextInput,
                     currentUserLanguage,
-                    setCurrentUserLanguage
+                    setCurrentUserLanguage,
+                    translated: undefined,
+                    resultLanguage: undefined,
+                    setResultLanguage: undefined,
+                    swapLanguages: undefined,
                 }
-            }
-            default: {
-                return null;
             }
         }
     }
