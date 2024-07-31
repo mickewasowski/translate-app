@@ -16,14 +16,13 @@ const iconButtonsUrls = [
     }
 ];
 
-interface IProps {
+interface IProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+    inputRef: React.Ref<HTMLTextAreaElement>;
     renderSubmitButton: boolean;
-    inputRef: React.RefAttributes<HTMLTextAreaElement>;
     language?: string;
 }
 
 function BottomButtonsWrapper({ renderSubmitButton, inputRef, language }: IProps) {
-
     const copyToClipboard = () => {
         const value = inputRef?.current?.value;
         navigator.clipboard.writeText(value);
@@ -46,8 +45,6 @@ function BottomButtonsWrapper({ renderSubmitButton, inputRef, language }: IProps
             case 'speaker': {
                 return textToSpeech;
             }
-            default:
-                return;
         }
     }
 
@@ -60,7 +57,6 @@ function BottomButtonsWrapper({ renderSubmitButton, inputRef, language }: IProps
                             <IconButton
                                 key={btn.id}
                                 iconUrl={btn.url}
-                                textAreaRef={inputRef}
                                 onClickHandler={clickHandler(btn.id)}
                                 tooltip={btn.tooltip}
                             />

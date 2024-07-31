@@ -12,7 +12,7 @@ function VoiceToText() {
     mic.continuous = true;
     mic.interimResults = true;
     const language = buttonsToLoad.find(x => x.id === currentUserLanguage);
-    mic.lang = language?.langCode;
+    mic.lang = language?.langCode as string;
 
     const startRecording = () => {
         if (!language?.langCode) {
@@ -24,12 +24,13 @@ function VoiceToText() {
         mic.start();
 
         mic.onresult = (event) => {
+            console.log(typeof event)
             const transcript = Array.from(event.results)
               .map((result) => result[0])
               .map((result) => result.transcript)
               .join("");
 
-            setUserTextInput(transcript);
+            if(setUserTextInput) setUserTextInput(transcript);
 
             mic.onerror = (event) => {
               console.log(event.error);
@@ -42,7 +43,7 @@ function VoiceToText() {
         mic.stop();
     }
 
-    const recordVoice = async (event) => {
+    const recordVoice = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         event.preventDefault();
         
         if (!isRecording) {

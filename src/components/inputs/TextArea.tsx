@@ -1,13 +1,14 @@
 import './TextArea.styles.scss';
 
-interface IProps {
-    currentValue: string;
+interface IProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+    inputRef: React.Ref<HTMLTextAreaElement>;
+    currentValue?: string;
     setCurrentValue?: (input: string) => void;
-    inputRef: React.RefAttributes<HTMLTextAreaElement>;
 }
 
+
 function TextArea({ currentValue, setCurrentValue, inputRef }: IProps) {
-    const handleTyping = ({ target: { value } }) => {
+    const handleTyping = ({ target: { value } }: React.ChangeEvent<HTMLTextAreaElement>) => {
         if (value.length > 500) return;
         setCurrentValue && setCurrentValue(value);
     }

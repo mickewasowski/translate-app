@@ -11,16 +11,22 @@ interface IProps {
 }
 
 function TranslationWrapper({ type }: IProps) {
-    const textAreaRef = useRef(null);
+    const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
     const { getStateByContainerType } = useContext(UserInputContext);
     const data = getStateByContainerType(type);
     const isResult = type === 'right';
     const userLanguage = isResult ? data.resultLanguage : data.currentUserLanguage;
     const setLanguage = isResult ? data.setResultLanguage : data.setCurrentUserLanguage;
     const textAreaValue = isResult ? data.translated : data.userTextInput;
-    const handleSetUserInput = isResult ? null : data.setUserTextInput;
-    const onSwapLanguages = isResult && data.swapLanguages;
+    const handleSetUserInput = isResult ? data.setTranslated : data.setUserTextInput;
+    const onSwapLanguages = isResult ? data.swapLanguages : undefined;
     const languageCode = allLanguages.find(x => x.id === userLanguage)?.langCode;
+
+    const handleChangeLanguage = (buttonId: string) => {
+        if (textAreaRef.current) textAreaRef.current.value = '';
+        if (handleSetUserInput) handleSetUserInput('');
+        if (setLanguage) setLanguage(buttonId);
+    }
 
     const renderButtons = () => {
         const dropDownLanguage = allLanguages.slice(4).find((x) => x.id === userLanguage);
@@ -32,7 +38,7 @@ function TranslationWrapper({ type }: IProps) {
                             key={dropDownLanguage.id}
                             innerText={dropDownLanguage.innerText}
                             currentlySelected={true}
-                            setLanguage={setLanguage}
+                            setLanguage={handleChangeLanguage}
                             id={dropDownLanguage.id}
                             hasDropdown={true}
                         />
@@ -44,7 +50,7 @@ function TranslationWrapper({ type }: IProps) {
                         key={btn.id}
                         innerText={btn.innerText}
                         currentlySelected={userLanguage === btn.id}
-                        setLanguage={setLanguage}
+                        setLanguage={handleChangeLanguage}
                         id={btn.id}
                         hasDropdown={false}
                     />
@@ -59,7 +65,7 @@ function TranslationWrapper({ type }: IProps) {
                         key={btn.id}
                         innerText={btn.innerText}
                         currentlySelected={userLanguage === btn.id}
-                        setLanguage={setLanguage}
+                        setLanguage={handleChangeLanguage}
                         id={btn.id}
                         hasDropdown={true}
                     />
@@ -71,7 +77,7 @@ function TranslationWrapper({ type }: IProps) {
                     key={btn.id}
                     innerText={btn.innerText}
                     currentlySelected={userLanguage === btn.id}
-                    setLanguage={setLanguage}
+                    setLanguage={handleChangeLanguage}
                     id={btn.id}
                     hasDropdown={false}
                 />

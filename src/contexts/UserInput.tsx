@@ -1,7 +1,8 @@
 import { useState, createContext, ReactElement } from "react";
 import { LanguageTags } from "../utils/languageTags";
 import { detectLanguage, translateText } from "../utils/apiRequest";
-import { languageCodes } from "../utils/NLP-languages";
+import { LanguageCodes } from "../utils/NLP-languages";
+import { IDetectLanguageResponse } from "../utils/types";
 
 interface IGetStateByContainerTypeReturnValue {
     translated?: string;
@@ -12,6 +13,7 @@ interface IGetStateByContainerTypeReturnValue {
     setUserTextInput?: React.Dispatch<React.SetStateAction<string>>;
     currentUserLanguage?: string;
     setCurrentUserLanguage?: React.Dispatch<React.SetStateAction<string>>;
+    setTranslated?: React.Dispatch<React.SetStateAction<string>>;
 }
 interface IUserInputContext {
     getStateByContainerType: (type: 'right' | 'left') => IGetStateByContainerTypeReturnValue;
@@ -27,6 +29,7 @@ const defaultState: IGetStateByContainerTypeReturnValue = {
     setUserTextInput: () => {},
     currentUserLanguage: 'englishLanguageBtn',
     setCurrentUserLanguage: () => {},
+    setTranslated: () => {},
 };
 
 const defaultContext: IUserInputContext = {
@@ -135,12 +138,6 @@ export const allLanguages = [
     },
 ];
 
-interface IDetectLanguageResponse {
-    DetectedLanguage_FullName: string;
-    DetectedLanguage_ThreeLetterCode: string;
-    Successful: boolean;
-}
-
 interface IProps {
     children: ReactElement;
 }
@@ -158,7 +155,7 @@ const UserInputProvider = ({ children }: IProps) => {
                 if (resultLang) {
                     const translated: IDetectLanguageResponse = await detectLanguage(userTextInput);
                     const responseLangCode = translated['DetectedLanguage_ThreeLetterCode'];
-                    const langCode: string = languageCodes[responseLangCode as keyof typeof languageCodes];
+                    const langCode: string = LanguageCodes[responseLangCode as keyof typeof LanguageCodes];
                     const currentLanguage = allLanguages.find(x => x.langCode === langCode);
                     if (currentLanguage) {
                         setCurrentUserLanguage(currentLanguage.id);
@@ -199,6 +196,7 @@ const UserInputProvider = ({ children }: IProps) => {
                     resultLanguage,
                     setResultLanguage,
                     swapLanguages,
+                    setTranslated,
                     userTextInput: undefined,
                     setUserTextInput: undefined,
                     currentUserLanguage: undefined,

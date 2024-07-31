@@ -1,4 +1,4 @@
-export enum languageCodes {
+export enum LanguageCodes {
     'DAN' = 'da', // Danish
     'DEU' = 'de', // German
     'ENG' = 'en', // English

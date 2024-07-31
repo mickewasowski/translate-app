@@ -7,7 +7,7 @@ import { allLanguages } from "../../contexts/UserInput";
 interface IProps {
     innerText: string;
     currentlySelected: boolean;
-    setLanguage: () => void;
+    setLanguage: (buttonId: string) => void;
     id: string;
     hasDropdown: boolean;
 }
@@ -24,13 +24,13 @@ function LanguageButton({ innerText, currentlySelected, setLanguage, id, hasDrop
     });
 
 
-    const handleDropDownClick = (event) => {
+    const handleDropDownClick = (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
         event.preventDefault();
         event.stopPropagation();
         setExpanded(!expanded);
     }
 
-    const handleSelectLanguage = (event, btnId: string) => {
+    const handleSelectLanguage = (event: React.MouseEvent<HTMLLIElement, MouseEvent>, btnId: string) => {
         event.preventDefault();
         event.stopPropagation();
         setLanguage(btnId);

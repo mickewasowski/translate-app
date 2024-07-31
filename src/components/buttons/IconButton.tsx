@@ -4,8 +4,7 @@ import classNames from "classnames";
 
 interface IProps {
     iconUrl: string;
-    onClickHandler?: (event) => void;
-    textAreaRef?: React.RefAttributes<HTMLTextAreaElement>;
+    onClickHandler?: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     tooltip: string;
 }
 
