@@ -3,7 +3,7 @@ import LanguageButton from '../buttons/LanguageButton';
 import TextArea from '../inputs/TextArea';
 import BottomButtonsWrapper from '../buttons/BottomButtonsWrapper';
 import './TranslationWrapper.styles.scss';
-import { buttonsToLoad, UserInputContext } from '../../contexts/UserInput';
+import { allLanguages, buttonsToLoad, UserInputContext } from '../../contexts/UserInput';
 import IconButton from '../buttons/IconButton';
 
 interface IProps {
@@ -21,22 +21,69 @@ function TranslationWrapper({ type }: IProps) {
     const handleSetUserInput = isResult ? null : data.setUserTextInput;
     const onSwapLanguages = isResult && data.swapLanguages;
 
+    const renderButtons = () => {
+        const dropDownLanguage = allLanguages.slice(4).find((x) => x.id === userLanguage);
+        if (dropDownLanguage) {
+            return buttonsToLoad.map((btn) => {
+                if (btn.id === buttonsToLoad[3].id) {
+                    return (
+                        <LanguageButton
+                            key={dropDownLanguage.id}
+                            innerText={dropDownLanguage.innerText}
+                            currentlySelected={true}
+                            setLanguage={setLanguage}
+                            id={dropDownLanguage.id}
+                            hasDropdown={true}
+                        />
+                    )
+                }
+    
+                return (
+                    <LanguageButton
+                        key={btn.id}
+                        innerText={btn.innerText}
+                        currentlySelected={userLanguage === btn.id}
+                        setLanguage={setLanguage}
+                        id={btn.id}
+                        hasDropdown={false}
+                    />
+                )
+            })
+        }
+
+        return buttonsToLoad.map((btn) => {
+            if (btn.id === buttonsToLoad[3].id) {
+                return (
+                    <LanguageButton
+                        key={btn.id}
+                        innerText={btn.innerText}
+                        currentlySelected={userLanguage === btn.id}
+                        setLanguage={setLanguage}
+                        id={btn.id}
+                        hasDropdown={true}
+                    />
+                )
+            }
+
+            return (
+                <LanguageButton
+                    key={btn.id}
+                    innerText={btn.innerText}
+                    currentlySelected={userLanguage === btn.id}
+                    setLanguage={setLanguage}
+                    id={btn.id}
+                    hasDropdown={false}
+                />
+            )
+        })
+    }
+
     return(
         <div className={`input-wrapper ${isResult ? 'results' : ''}`}>
             <div className='buttons-container'>
                 <div>
                     {
-                        buttonsToLoad.map((btn) => {
-                            return (
-                                <LanguageButton
-                                    key={btn.id}
-                                    innerText={btn.innerText}
-                                    currentlySelected={userLanguage === btn.id}
-                                    setLanguage={setLanguage}
-                                    id={btn.id}
-                                />
-                            )
-                        })
+                        renderButtons()
                     }
                 </div>
                 {
