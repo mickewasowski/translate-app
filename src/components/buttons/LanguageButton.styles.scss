@@ -1,19 +1,59 @@
 @import '/src/App.scss';
 
-.regular {
-    background-color: transparent;
-    border: none;
-    padding: .5rem .7rem;
-    color: $light-grey;
-    font-weight: 600;
+.language-btn-wrapper {
+    position: relative;
+    display: inline-block;
 
-    &.active-button {
-        background-color: rgba($light-grey, .6);
-        color: $white;
-        border-radius: 10px;
+    .regular {
+        background-color: transparent;
+        border: none;
+        padding: .5rem .7rem;
+        color: $light-grey;
+        font-weight: 600;
+    
+        &.active-button {
+            background-color: rgba($light-grey, .6);
+            color: $white;
+            border-radius: 10px;
+        }
+    
+        #dropdown-btn {
+            display: inline-block;
+            background-color: transparent;
+            border: none;
+            padding-left: 3px;
+            vertical-align: middle;
+            justify-self: center;
+            position: relative;
+        }
+    
+        &:hover {
+            cursor: pointer;
+        }
     }
+    
+    .dropdown-menu {
+        position: absolute;
+        left: .5rem;
+        top: 2.5rem;
+        z-index: 2;
+        background-color: $dark-gray;
+        border-radius: 5px;
+        color: $white;
+    
+        ul {
+            list-style-type: none;
 
-    &:hover {
-        cursor: pointer;
+            li {
+                padding: .3rem;
+                border-radius: 5px;
+                text-align: center;
+
+                &:hover{
+                    background-color: $slightly-lighter-dark-gray;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }
