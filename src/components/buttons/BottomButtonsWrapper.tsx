@@ -19,9 +19,10 @@ const iconButtonsUrls = [
 interface IProps {
     renderSubmitButton: boolean;
     inputRef: React.RefAttributes<HTMLTextAreaElement>;
+    language?: string;
 }
 
-function BottomButtonsWrapper({ renderSubmitButton, inputRef }: IProps) {
+function BottomButtonsWrapper({ renderSubmitButton, inputRef, language }: IProps) {
 
     const copyToClipboard = () => {
         const value = inputRef?.current?.value;
@@ -33,6 +34,7 @@ function BottomButtonsWrapper({ renderSubmitButton, inputRef }: IProps) {
         const msg = new SpeechSynthesisUtterance();
         const value = inputRef?.current?.value;
         msg.text = value;
+        if (language) msg.lang = language;
         window.speechSynthesis.speak(msg);
     }
 

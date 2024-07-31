@@ -20,6 +20,7 @@ function TranslationWrapper({ type }: IProps) {
     const textAreaValue = isResult ? data.translated : data.userTextInput;
     const handleSetUserInput = isResult ? null : data.setUserTextInput;
     const onSwapLanguages = isResult && data.swapLanguages;
+    const languageCode = allLanguages.find(x => x.id === userLanguage)?.langCode;
 
     const renderButtons = () => {
         const dropDownLanguage = allLanguages.slice(4).find((x) => x.id === userLanguage);
@@ -92,7 +93,7 @@ function TranslationWrapper({ type }: IProps) {
                 }
             </div>
             <TextArea currentValue={textAreaValue} setCurrentValue={handleSetUserInput} inputRef={textAreaRef}/>
-            <BottomButtonsWrapper renderSubmitButton={!isResult} inputRef={textAreaRef}/>
+            <BottomButtonsWrapper renderSubmitButton={!isResult} inputRef={textAreaRef} language={languageCode} />
         </div>
     )
 }
