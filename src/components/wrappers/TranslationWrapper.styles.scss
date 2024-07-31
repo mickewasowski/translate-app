@@ -21,3 +21,10 @@
         justify-content: space-between;
     }
 }
+
+@media screen and (max-width: 650px) {
+    .input-wrapper {
+        min-width: unset;
+        width: 100%;
+    }
+}
