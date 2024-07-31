@@ -8,5 +8,9 @@ export enum LanguageTags {
     "pt" = "pt",
     "ru" = "ru",
     "it" = "it",
-    "ar" = "ar"
+    'da' = 'da',
+    'ko' = 'ko',
+    'nl' = 'nl',
+    'no' = 'no',
+    'sv' = 'sv',
 }

@@ -47,7 +47,61 @@ export const allLanguages = [
         innerText: 'Spanish',
         langCode: LanguageTags.es
     },
-    //TODO: add the rest of the languages
+    {
+        id: 'danishLanguageBtn',
+        innerText: 'Danish',
+        langCode: LanguageTags.da
+    },
+    {
+        id: 'germanLanguageBtn',
+        innerText: 'German',
+        langCode: LanguageTags.de
+    },
+    {
+        id: 'italianLanguageBtn',
+        innerText: 'Italian',
+        langCode: LanguageTags.it
+    },
+    {
+        id: 'japaneseLanguageBtn',
+        innerText: 'Japanese',
+        langCode: LanguageTags.ja
+    },
+    {
+        id: 'koreanLanguageBtn',
+        innerText: 'Korean',
+        langCode: LanguageTags.ko
+    },
+    {
+        id: 'dutchLanguageBtn',
+        innerText: 'Dutch',
+        langCode: LanguageTags.nl
+    },
+    {
+        id: 'norwegianLanguageBtn',
+        innerText: 'Norwegian',
+        langCode: LanguageTags.no
+    },
+    {
+        id: 'portugueseLanguageBtn',
+        innerText: 'Portuguese',
+        langCode: LanguageTags.pt
+    },
+    {
+        id: 'russianLanguageBtn',
+        innerText: 'Russian',
+        langCode: LanguageTags.ru
+    },
+    {
+        id: 'swedishLanguageBtn',
+        innerText: 'Swedish',
+        langCode: LanguageTags.sv
+    },
+    {
+        id: 'chineseLanguageBtn',
+        innerText: 'Chinese',
+        langCode: LanguageTags.zh
+    },
 ];
 
 const UserInputProvider = ({ children }) => {
@@ -58,8 +112,8 @@ const UserInputProvider = ({ children }) => {
 
     const translateUserInput = async () => {
         try {
-            if (currentUserLanguage === buttonsToLoad[0].id) {
-                const resultLang = buttonsToLoad.find((x) => x.id === resultLanguage)?.langCode;
+            if (currentUserLanguage === allLanguages[0].id) {
+                const resultLang = allLanguages.find((x) => x.id === resultLanguage)?.langCode;
                 if (resultLang) {
                     const translated = await detectLanguage(userTextInput);
                     const langCode = languageCodes[translated['DetectedLanguage_ThreeLetterCode']];
@@ -74,8 +128,8 @@ const UserInputProvider = ({ children }) => {
                     }
                 }
             } else {
-                const sourceLang = buttonsToLoad.find((x) => x.id === currentUserLanguage)?.langCode;
-                const resultLang = buttonsToLoad.find((x) => x.id === resultLanguage)?.langCode;
+                const sourceLang = allLanguages.find((x) => x.id === currentUserLanguage)?.langCode;
+                const resultLang = allLanguages.find((x) => x.id === resultLanguage)?.langCode;
                 if (sourceLang && resultLang) {
                     const result = await translateText(userTextInput, sourceLang, resultLang);
                     if (result.responseData) {
